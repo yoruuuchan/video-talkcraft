@@ -8,17 +8,19 @@
 [![License](https://img.shields.io/badge/License-PolyForm%20Noncommercial-blue)](LICENSE)
 [![WeChat](https://img.shields.io/badge/WeChat-%E8%AE%A8%E8%AE%BA%E7%BE%A4-07C160?logo=wechat&logoColor=white)](assets/wechat-group.jpg)
 
-**口播视频的 agent skill：字级配音同步 · 108 张动效配方卡 · 七层反 PPT 镜头系统 · 三重验收**
+**口播 / 线上采访视频的 agent skill：大纲粗剪 · 画面补充 · 字级同步 · 108 张动效配方卡 · Remotion 工作台**
 
 [中文](README.md) | [English](README_EN.md)
 
 </div>
 
-**video-talkcraft** 是 [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft)
-系列的口播视频篇：一个把 Claude Code / Codex 变成口播视频动效工作室的 AI agent skill。
-给它一份口播稿和一条成品配音，它在本机对齐字级时间戳、把每个语义拍写进 SHOTBOOK
-分镜，然后用 [Remotion](https://www.remotion.dev/) 渲出高质量的解说成片——动态字卡、
-证据截图、运镜、素排字幕、影视级音效，全部锁在人声上。
+**video-talkcraft** 原项目是 [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft) 系列的口播视频篇。本 fork 保留原有口播能力，并增加一条针对线上采访的工作流：用户先准备好原始采访 MP4、MP3、SRT 和采访大纲，agent 从按大纲粗剪开始，再判断哪里保留人物/共享屏幕、哪里补截图、B-roll、补充视频或 Remotion 动效。
+
+## Yoru fork：线上采访模式
+
+采访模式不接管音频提取和转写。用户准备 `MP4 + MP3 + SRT + 采访大纲`，agent 负责两件事：**按大纲粗剪内容**，以及**给粗剪后的内容补合适的画面**。线上人物可以长期缩成小窗；共享屏幕清楚就直接用，模糊、卡顿或不可读时换成更清楚的截图、录屏、补充 MP4 或 Remotion 动效。
+
+采访版也放宽了原项目偏稀疏的文字呈现：同一屏可以按内容关系放核心原话、短要点和解释文字，不再为了留白把有关联的信息硬拆成很多只有一两句话的画面。只有真正需要重做或程序动效的段落才进入完整 SHOTBOOK。详见 [`references/interview-workflow.md`](references/interview-workflow.md)。
 
 🖼️ [**在线画廊：108 张动效预览一页全览 »**](https://vincentwei1021.github.io/video-talkcraft/)
 
@@ -197,6 +199,7 @@ python3 -m unittest discover -s scripts -p 'test_*fish*.py' -v
 video-talkcraft/
 ├── SKILL.md                    # agent 入口：八步管线与硬规则
 ├── references/
+│   ├── interview-workflow.md   # 本 fork：线上采访粗剪、补画面与文字密度规则
 │   ├── design-language.md      # 默认视觉系统（色板/字阶/布局/字幕）
 │   ├── shot-design.md          # 三面工作单 + 七型镜头预设
 │   ├── cinematography.md       # 七层模型、转场、排版预算、验收关卡
@@ -221,16 +224,13 @@ video-talkcraft/
 
 **video-talkcraft 是什么？**
 一个开源的 AI agent skill（Claude Code / Codex 技能包），用于 AI 视频制作：
-把口播稿 + 成品配音自动做成带动效的口播视频。它不是剪辑软件，也不是模板站——
-agent 读方法论、选动效配方卡、写 [Remotion](https://www.remotion.dev/) 代码、
-跑三重验收，产出可直接发布的解说成片。
+把口播稿 + 成品配音做成带动效的口播视频；本 fork 也支持从现成 MP4 + MP3 + SRT + 采访大纲开始做线上采访粗剪和视觉包装。agent 读方法论、选素材和动效、写 [Remotion](https://www.remotion.dev/) 代码并跑验收，产出可继续微调或直接发布的成片。
 
 **能做哪类视频？**
-知识科普、产品评测、新闻解读、观点锐评等口播/解说类横屏视频。
-中文口播优先设计，中英混排完全支持。
+知识科普、产品评测、新闻解读、观点锐评等口播/解说视频，也支持本 fork 新增的线上采访后期。中文优先设计，中英混排完全支持。
 
 **需要准备什么？**
-口播稿（文本）+ 成品配音（任何 TTS 或真人录音）；人物出镜素材与 B-roll 可选。
+口播模式准备口播稿 + 成品配音；采访模式准备原始采访 MP4 + MP3 + SRT + 采访大纲，已有补充素材可一起提供。采访模式默认不替用户做音频提取和转写。
 
 **免费吗？**
 个人、教育、研究用途免费（PolyForm Noncommercial 1.0.0），
